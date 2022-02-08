@@ -1,6 +1,20 @@
-repository:
-  name: settings
-  description: Pull Requests for GitHub repository settings
-  homepage: https://github.com/apps/settings
-  topics: probot-app, github-app
-  has_wiki: false
+branches:
+  - name: main
+    protection:
+      required_pull_request_reviews:
+        # The number of approvals required. (1-6)
+        required_approving_review_count: 1
+        # Dismiss approved reviews automatically when a new commit is pushed.
+        dismiss_stale_reviews: true
+      # Required. Enforce all configured restrictions for administrators. Set to true to enforce required status checks for repository administrators. Set to null to disable.
+      enforce_admins: true
+      # Prevent merge commits from being pushed to matching branches
+      required_linear_history: true
+      # Requires all conversations on code to be resolved before a pull request can be merged into a branch that matches this rule
+      required_conversation_resolution: true
+# repository:
+#   name: settings
+#   description: Enforce branch protection rules
+#   homepage: https://github.com/apps/settings
+#   topics: probot-app, github-app
+#   has_wiki: false
