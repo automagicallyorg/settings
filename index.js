@@ -5,8 +5,32 @@ const mergeArrayByName = require('./lib/mergeArrayByName')
  */
 module.exports = (robot, _, Settings = require('./lib/settings')) => {
   async function syncSettings (context, repo = context.repo()) {
-    const config = await context.config('settings.yml', {}, { arrayMerge: mergeArrayByName })
-    return Settings.sync(context.octokit, repo, config)
+    const rule_config = {
+      branches:
+      [{
+      name: 'main',
+        protection: {
+          required_pull_request_reviews: {
+            required_approving_review_count: 1,
+            dismiss_stale_reviews: true
+          },
+          enforce_admins: true,
+          required_linear_history: true,
+          required_conversation_resolution: true,
+          required_status_checks: {
+            strict: true,
+            contexts: []
+          },
+          restrictions: {
+            apps: [],
+            users: [],
+            teams: [],
+          }
+        }
+      }]
+    };
+    // const config = await context.config('settings.yml', {}, { arrayMerge: mergeArrayByName })
+    return Settings.sync(context.octokit, repo, rule_config)
   }
 
   // robot.on('push', async context => {
@@ -49,4 +73,13 @@ module.exports = (robot, _, Settings = require('./lib/settings')) => {
   robot.on('repository.created', async context => {
     return syncSettings(context)
   })
+
+  robot.on('branch_protection_rule.edited', async context => {
+    return syncSettings(context)
+  })
+
+  robot.on('branch_protection_rule.deleted', async context => {
+    return syncSettings(context)
+  })
+
 }
