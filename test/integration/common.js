@@ -7,7 +7,7 @@ const settings = require('../../lib/settings')
 nock.disableNetConnect()
 
 const repository = {
-  default_branch: 'master',
+  default_branch: 'main',
   name: 'botland',
   owner: {
     name: 'bkeepers-inc',
@@ -33,26 +33,26 @@ function teardownNock (githubScope) {
   nock.cleanAll()
 }
 
-function buildPushEvent () {
-  return {
-    name: 'push',
-    payload: {
-      ref: 'refs/heads/master',
-      repository,
-      commits: [{ modified: [settings.FILE_NAME], added: [] }]
-    }
-  }
-}
+// function buildPushEvent () {
+//   return {
+//     name: 'push',
+//     payload: {
+//       ref: 'refs/heads/main',
+//       repository,
+//       commits: [{ modified: [settings.FILE_NAME], added: [] }]
+//     }
+//   }
+// }
 
-function buildRepositoryEditedEvent () {
-  return {
-    name: 'repository.edited',
-    payload: {
-      changes: { default_branch: { from: any.word() } },
-      repository
-    }
-  }
-}
+// function buildRepositoryEditedEvent () {
+//   return {
+//     name: 'repository.edited',
+//     payload: {
+//       changes: { default_branch: { from: any.word() } },
+//       repository
+//     }
+//   }
+// }
 
 function buildRepositoryCreatedEvent () {
   return {
@@ -62,15 +62,16 @@ function buildRepositoryCreatedEvent () {
 }
 
 function buildTriggerEvent () {
-  return any.fromList([buildPushEvent(), buildRepositoryCreatedEvent(), buildRepositoryEditedEvent()])
+  // return any.fromList([buildPushEvent(), buildRepositoryCreatedEvent(), buildRepositoryEditedEvent()])
+  return any.fromList([buildRepositoryCreatedEvent()])
 }
 
 module.exports = {
   loadInstance,
   initializeNock,
   teardownNock,
-  buildTriggerEvent,
+  // buildTriggerEvent,
   buildRepositoryCreatedEvent,
-  buildRepositoryEditedEvent,
+  // buildRepositoryEditedEvent,
   repository
 }
