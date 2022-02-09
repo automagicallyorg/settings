@@ -33,12 +33,12 @@ describe('plugin', () => {
     plugin(app, {}, { sync, FILE_NAME: '.github/settings.yml' })
   })
 
-  describe('with settings modified on master', () => {
-    it('syncs settings', async () => {
-      await app.receive(event)
-      expect(sync).toHaveBeenCalled()
-    })
-  })
+  // describe('with settings modified on master', () => {
+  //   it('syncs settings', async () => {
+  //     await app.receive(event)
+  //     expect(sync).toHaveBeenCalled()
+  //   })
+  // })
 
   describe('on another branch', () => {
     beforeEach(() => {
@@ -62,19 +62,19 @@ describe('plugin', () => {
     })
   })
 
-  describe('default branch changed', () => {
-    beforeEach(() => {
-      event = {
-        name: 'repository.edited',
-        payload: require('../fixtures/events/repository.edited.json')
-      }
-    })
+  // describe('default branch changed', () => {
+  //   beforeEach(() => {
+  //     event = {
+  //       name: 'repository.edited',
+  //       payload: require('../fixtures/events/repository.edited.json')
+  //     }
+  //   })
 
-    it('does sync settings', async () => {
-      await app.receive(event)
-      expect(sync).toHaveBeenCalled()
-    })
-  })
+  //   it('does sync settings', async () => {
+  //     await app.receive(event)
+  //     expect(sync).toHaveBeenCalled()
+  //   })
+  // })
 
   describe('repository created', () => {
     beforeEach(() => {

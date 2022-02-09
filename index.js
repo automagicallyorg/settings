@@ -1,14 +1,14 @@
-const mergeArrayByName = require('./lib/mergeArrayByName')
+// const mergeArrayByName = require('./lib/mergeArrayByName')
 
 /**
  * @param {import('probot').Probot} robot
  */
 module.exports = (robot, _, Settings = require('./lib/settings')) => {
   async function syncSettings (context, repo = context.repo()) {
-    const rule_config = {
+    const ruleConfig = {
       branches:
       [{
-      name: 'main',
+        name: 'main',
         protection: {
           required_pull_request_reviews: {
             required_approving_review_count: 1,
@@ -24,13 +24,13 @@ module.exports = (robot, _, Settings = require('./lib/settings')) => {
           restrictions: {
             apps: [],
             users: [],
-            teams: [],
+            teams: []
           }
         }
       }]
-    };
+    }
     // const config = await context.config('settings.yml', {}, { arrayMerge: mergeArrayByName })
-    return Settings.sync(context.octokit, repo, rule_config)
+    return Settings.sync(context.octokit, repo, ruleConfig)
   }
 
   // robot.on('push', async context => {
@@ -81,5 +81,4 @@ module.exports = (robot, _, Settings = require('./lib/settings')) => {
   robot.on('branch_protection_rule.deleted', async context => {
     return syncSettings(context)
   })
-
 }

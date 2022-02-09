@@ -1,8 +1,8 @@
 const { Probot } = require('probot')
 const nock = require('nock')
-const any = require('@travi/any')
+// const any = require('@travi/any')
 const settingsBot = require('../../index')
-const settings = require('../../lib/settings')
+// const settings = require('../../lib/settings')
 
 nock.disableNetConnect()
 
@@ -61,10 +61,10 @@ function buildRepositoryCreatedEvent () {
   }
 }
 
-function buildTriggerEvent () {
-  // return any.fromList([buildPushEvent(), buildRepositoryCreatedEvent(), buildRepositoryEditedEvent()])
-  return any.fromList([buildRepositoryCreatedEvent()])
-}
+// function buildTriggerEvent () {
+//   // return any.fromList([buildPushEvent(), buildRepositoryCreatedEvent(), buildRepositoryEditedEvent()])
+//   return any.fromList([buildRepositoryCreatedEvent()])
+// }
 
 module.exports = {
   loadInstance,
