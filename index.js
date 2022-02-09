@@ -71,6 +71,23 @@ module.exports = (robot, _, Settings = require('./lib/settings')) => {
   // })
 
   robot.on('repository.created', async context => {
+    const { payload } = context
+    const { repository } = payload
+    const repoName = repository.name
+    const repoOwner = repository.owner.login
+    const repoSize = repository.size
+    if (repoSize == 0) {
+      robot.log.debug('Empty repo created...')
+      // fails here...
+      await context.octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
+        owner: '${repoOwner}',
+        branch: 'main',
+        repo: '${repoName}',
+        path: 'README.md',
+        message: 'add README',
+        content: 'QWRkIHNvbWUgbWVhbmluZ2Z1bCBkZXNjcmlwdGlvbiBwbGVhc2UuIEl0IHdpbGwgaGVscCB5b3UgbGF0ZXIu'
+      })
+    }
     return syncSettings(context)
   })
 
